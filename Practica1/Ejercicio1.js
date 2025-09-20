@@ -1,8 +1,8 @@
-var nombre = "Armando";
-var edad = 25;
+let nombre = "Armando";
+const edad = 25;
 
 nombre = "Ana Maria";
 
-var saludo = "Hola, " + nombre + ", Tienes " + edad + " años.";
+let saludo = "Hola, " + nombre + ", Tienes " + edad + " años.";
 
-//muestra en consola en contenido de saludo 
+console.log(saludo);
