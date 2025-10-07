@@ -1,0 +1,2 @@
+Me quede en el primer paso, al instalar la libreria expo en el comando:
+npm install -g expo-cli. No termino de cargar 
