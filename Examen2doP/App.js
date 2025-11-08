@@ -2,9 +2,17 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
 
 import { StyleSheet, Text, View, ImageBackground, Animated, Easing, Switch, Button } from 'react-native';
-import { ScrollView } from 'react-native-web';
+import { ScrollView } from 'react-native';
 
-/*
+
+
+export default function App() {
+const[completada,cambiarCom]=useState(false);
+const[completada2,cambiarCom2]=useState(false);
+const[completada3,cambiarCom3]=useState(false);
+const[completada4,cambiarCom4]=useState(false);
+const[completada5,cambiarCom5]=useState(false);
+const[completada6,cambiarCom6]=useState(false);
 const[cargando,setCargando]=useState(true);
 const desvanecido =new Animated.Value(1);
 
@@ -35,9 +43,6 @@ useEffect(()=>{
   );
 
 }
-*/
-export default function App() {
-
   return (
     
     <ImageBackground
@@ -52,16 +57,56 @@ export default function App() {
         <View style={styles.elementos2}>
 
     <Text style={styles.Titulo}>Trabajo</Text>
+    <View style={styles.tareas}>
+    <Text>Tarea 1: Configurar una nueva Red</Text>
+    <Text>Prioridad: Alta</Text>
+     <Text>Estatus: </Text>
+     <Text>{completada ? 'Completada':'Pendiente'}</Text>
+     <Switch value={completada} onValueChange={()=>cambiarCom(!completada)}></Switch>
+     
+    <Text>Tarea 2: Configurar una nueva Red</Text>
+    <Text>Prioridad: Alta</Text>
+     <Text>Estatus: </Text>
+     <Text>{completada2 ? 'Completada':'Pendiente'}</Text>
+     <Switch value={completada2} onValueChange={()=>cambiarCom2(!completada2)}></Switch>
+     </View>
       </View>
       <View style={styles.elementos3}>
 
     <Text style={styles.Titulo}>Escuela</Text>
+    <View style={styles.tareas}>
+    <Text>Tarea 1: Crear la presentacion para Aplicaciones Moviles</Text>
+    <Text>Prioridad: Alta</Text>
+     <Text>Estatus: </Text>
+     <Text>{completada3 ? 'Completada':'Pendiente'}</Text>
+     <Switch value={completada3} onValueChange={()=>cambiarCom3(!completada3)}></Switch>
+     
+    <Text>Tarea 2: Terminar los ejercicios de calculo</Text>
+    <Text>Prioridad: Baja</Text>
+     <Text>Estatus: </Text>
+     <Text>{completada4 ? 'Completada':'Pendiente'}</Text>
+     <Switch value={completada4} onValueChange={()=>cambiarCom4(!completada4)}></Switch>
+     </View>
       </View>
 
       <View style={styles.elementos4}>
 
     <Text style={styles.Titulo}>Casa</Text>
+    <View style={styles.tareas}>
+    <Text>Tarea 1: Alimentar a los perros</Text>
+    <Text>Prioridad: Alta</Text>
+     <Text>Estatus: </Text>
+     <Text>{completada5 ? 'Completada':'Pendiente'}</Text>
+     <Switch value={completada5} onValueChange={()=>cambiarCom5(!completada5)}></Switch>
+     
+    <Text>Tarea 2: Hacer la limpieza</Text>
+    <Text>Prioridad: Alta</Text>
+     <Text>Estatus: </Text>
+     <Text>{completada6 ? 'Completada':'Pendiente'}</Text>
+     <Switch value={completada6} onValueChange={()=>cambiarCom6(!completada6)}></Switch>
+     </View>
       </View>
+      <Button onPress={()=>setCargando(cambiarCom6(!completada6) )(cambiarCom4(!completada4) )(cambiarCom3(!completada3) )(cambiarCom2(!completada2) )(cambiarCom(!completada) )}  title='Reiniciar'></Button>
       </ScrollView>
       
     </ImageBackground>
@@ -79,6 +124,19 @@ Titulo:{
 fontSize:27,
 fontWeight:'bold',
 
+},
+tareas:{
+  justifyContent:'space-between',
+  margin:10
+},
+splashText:{
+  alignItems:'center',
+  fontSize:20,
+  fontWeight:'bold'
+},
+splashContainer:{
+  alignContent:'center',
+  alignItems:'center'
 },
 Titulo2:{
 fontSize:20,
@@ -102,11 +160,13 @@ color:'#fff'
 
   },
   elementos2:{
-    margin:10,
+    margin:5,
+   padding:5,
     alignItems:'center',
     backgroundColor:'#8bbae3b1',
     width:600,
-    height:200
+   
+    height:300
 
   },
     elementos3:{
@@ -114,7 +174,7 @@ color:'#fff'
     alignItems:'center',
     backgroundColor:'#8be39b77',
     width:600,
-    height:200
+    height:300
 
   },
     elementos4:{
@@ -122,7 +182,7 @@ color:'#fff'
     alignItems:'center',
     backgroundColor:'#e3ba8b8b',
     width:600,
-    height:200
+    height:300
 
   },
   
