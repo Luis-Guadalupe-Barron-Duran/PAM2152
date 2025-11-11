@@ -1,5 +1,7 @@
+
 import { useState } from 'react'
 import { Text, StyleSheet, View, Button, ActivityIndicator } from 'react-native'
+
 
 export default function ActivityScreen() {
 
@@ -11,9 +13,12 @@ export default function ActivityScreen() {
 
   };
 
+
   if(loading){
     return(
+
     <View style={styles.container}>
+
       <View style={styles.loadercontainer}>
         <ActivityIndicator
         size='large'
@@ -28,11 +33,13 @@ export default function ActivityScreen() {
     );
   }
     return(
+
       <View style={styles.container}>
         <Text style={styles.title}>ActivityIndicator</Text>
         <Button title='Carga de datos' onPress={startLoading} color={"#3056dff7"}>                   
         </Button>
       </View>
+
     )
 
 }
@@ -58,5 +65,6 @@ const styles = StyleSheet.create({
   loadercontainer:{
     alignItems:'center',
   },
+
 
 })
