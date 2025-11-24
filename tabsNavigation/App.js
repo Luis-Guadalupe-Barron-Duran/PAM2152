@@ -1,10 +1,12 @@
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, getFocusedRouteNameFromRoute} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Ionicons} from '@expo/vector-icons';
 
 import Home from './screens/Home';
-import Profile from './screens/Profile';
 import Settings from './screens/Settings';
+import ProfileStack from './screens/ProfileStack';
+//import Profile from './screens/Profile';
+
 
 const Tab = createBottomTabNavigator();
 
@@ -38,7 +40,14 @@ export default function App() {
         })}
       >
         <Tab.Screen name="Home" component={Home} />
-        <Tab.Screen name="Profile" component={Profile} />
+        <Tab.Screen name="Profile" component={ProfileStack}
+          options={({ route }) => {
+            const routeName = getFocusedRouteNameFromRoute(route) ?? 'Profile';
+            return {
+              tabBarStyle: routeName === 'Detalles' ? { display: 'none' } : undefined,
+            };
+          }}
+        />
         <Tab.Screen name="Settings" component={Settings} />
       </Tab.Navigator>
     </NavigationContainer>
