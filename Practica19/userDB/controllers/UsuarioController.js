@@ -46,6 +46,29 @@ export class UsuarioController {
             console.error('Error al crear usuario:', error);
             throw error;
         }
+    }/* */
+
+    async editarUsuario(id, nombre) {
+        try {
+            Usuario.validar(nombre);
+            const updated = await DatabaseService.update(id, nombre.trim());
+            this.notifyListeners();
+            return new Usuario(updated.id || id, updated.nombre || nombre.trim(), updated.fecha_creacion || new Date().toISOString());
+        } catch (error) {
+            console.error('Error al editar usuario:', error);
+            throw error;
+        }
+    }
+
+    async eliminarUsuario(id) {
+        try {
+            const res = await DatabaseService.remove(id);
+            this.notifyListeners();
+            return res;
+        } catch (error) {
+            console.error('Error al eliminar usuario:', error);
+            throw error;
+        }
     }
 
     // Sistema de observadores para actualizar la vista automáticamente

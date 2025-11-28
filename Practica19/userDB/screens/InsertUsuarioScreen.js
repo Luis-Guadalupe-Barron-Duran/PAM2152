@@ -10,6 +10,7 @@ export default function UsuarioView() {
   const [nombre, setNombre] = useState('');
   const [loading, setLoading] = useState(true);
   const [guardando, setGuardando] = useState(false);
+  const [editingId, setEditingId] = useState(null);
 
   const cargarUsuarios=useCallback(async()=>{
     try{
@@ -54,6 +55,53 @@ const handleAgregar= async ()=>{
   }
 };
 
+const handleEditarInit = (usuario) => {
+  setNombre(usuario.nombre);
+  setEditingId(usuario.id);
+};
+
+const handleActualizar = async () => {
+  if (guardando || !editingId) return;
+  try {
+    setGuardando(true);
+    const actualizado = await controller.editarUsuario(editingId, nombre);
+    Alert.alert('Usuario Actualizado', `"${actualizado.nombre}" actualizado.`);
+    setNombre('');
+    setEditingId(null);
+  } catch (error) {
+    Alert.alert('Error', error.message);
+  } finally {
+    setGuardando(false);
+  }
+};
+
+const handleCancelarEdicion = () => {
+  setNombre('');
+  setEditingId(null);
+};
+
+const handleEliminar = (usuario) => {
+  Alert.alert(
+    'Confirmar eliminación',
+    `¿Deseas eliminar a "${usuario.nombre}"?`,
+    [
+      { text: 'Cancelar', style: 'cancel' },
+      {
+        text: 'Eliminar',
+        style: 'destructive',
+        onPress: async () => {
+          try {
+            await controller.eliminarUsuario(usuario.id);
+            Alert.alert('Eliminado', `Usuario "${usuario.nombre}" eliminado.`);
+          } catch (error) {
+            Alert.alert('Error', error.message);
+          }
+        }
+      }
+    ]
+  );
+};
+
   const renderUsario=({item, index})=>(
     <View style={styles.userItem}>
       <View style={styles.userName}>
@@ -68,6 +116,14 @@ const handleAgregar= async ()=>{
           day:'numeric'
         })}
           </Text>
+        <View style={styles.itemActions}>
+          <TouchableOpacity style={styles.actionButton} onPress={()=>handleEditarInit(item)}>
+            <Text style={styles.actionText}>Editar</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.actionButton, styles.deleteButton]} onPress={()=>handleEliminar(item)}>
+            <Text style={[styles.actionText, styles.deleteText]}>Eliminar</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   ); 
@@ -95,16 +151,34 @@ const handleAgregar= async ()=>{
           editable={!guardando}
         />
 
-        <TouchableOpacity 
-          style={[styles.button, guardando && styles.buttonDisabled]} 
-          onPress={handleAgregar}
-          disabled={guardando} >
+        {editingId ? (
+          <View style={{flexDirection: 'row'}}>
+            <TouchableOpacity 
+              style={[styles.button, guardando && styles.buttonDisabled, {flex:1}]} 
+              onPress={handleActualizar}
+              disabled={guardando} >
+              <Text style={styles.buttonText}>{guardando ? 'Actualizando...' : 'Actualizar Usuario'}</Text>
+            </TouchableOpacity>
 
-          <Text style={styles.buttonText}>
-            {guardando ? ' Guardando...' : 'Agregar Usuario'}
-          </Text>
+            <TouchableOpacity 
+              style={[styles.button, {backgroundColor:'#999', flex:1, marginLeft:8}]}
+              onPress={handleCancelarEdicion}
+              disabled={guardando}>
+              <Text style={styles.buttonText}>Cancelar</Text>
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <TouchableOpacity 
+            style={[styles.button, guardando && styles.buttonDisabled]} 
+            onPress={handleAgregar}
+            disabled={guardando} >
 
-        </TouchableOpacity>
+            <Text style={styles.buttonText}>
+              {guardando ? ' Guardando...' : 'Agregar Usuario'}
+            </Text>
+
+          </TouchableOpacity>
+        )}
 
       </View>
 
@@ -332,5 +406,26 @@ const styles = StyleSheet.create({
   bold: {
     fontWeight: 'bold',
     color: '#1976D2',
+  },
+  itemActions: {
+    flexDirection: 'row',
+    marginTop: 8,
+  },
+  actionButton: {
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    borderRadius: 6,
+    backgroundColor: '#eef6ff',
+    marginRight: 8,
+  },
+  actionText: {
+    color: '#1976D2',
+    fontWeight: '600',
+  },
+  deleteButton: {
+    backgroundColor: '#fff0f0',
+  },
+  deleteText: {
+    color: '#d32f2f',
   },
 });
